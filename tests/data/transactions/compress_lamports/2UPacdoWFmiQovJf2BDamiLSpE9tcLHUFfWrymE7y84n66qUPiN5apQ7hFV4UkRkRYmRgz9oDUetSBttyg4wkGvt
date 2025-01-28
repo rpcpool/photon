@@ -1,4 +1,4 @@
-{
+./compress_lamports/2UPacdoWFmiQovJf2BDamiLSpE9tcLHUFfWrymE7y84n66qUPiN5apQ7hFV4UkRkRYmRgz9oDUetSBttyg4wkGvt{
     "slot": 49,
     "transaction": [
         "AUmi8Tsb4AAql/vdn/Q2I7jyx7SC92Q0kJ3cfwsPrBgA0FLorgLm9t2cUhcYoSoq700uYjOsvG9i3mpd2qr+2QmAAQAGCnw1R2zaZEeJofByHRY8pZEh7c5OM4Eguz5VKL7uukr3sE+/Qp38X/mRYVDsM83YTKAnDnbRtLvphkqvIkRRZcexbn0u6DSvXDP9LdNKdCY5jY7gvforpgtd69X5BS/nOURNfSBMgD20Ac9FLHl2mRGzt3Mio39m1gFXr7FfMUFFAwZGb+UhFzL/7K26csOb57yM5bvF9xJrLEObOkAAAABRbDK1AElbxd3XakUFa5L8Jfx7rz7IqOZvBtlHbLq4Uw6TQyGeedbuolxPG7XsI7HznWm/Yg53gGXeOUNwIjDrC7wPwLtHyi90xBEulKsTz6PGNOXcF+rLA80aI81+eHxBbD2wNHXqhcavQ6sML4++KFWFi/g/4Gcx30CKXBmgHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAab3on8Z+rEdKA4LTJuTISa4jgveLaifQYdPsB7OxO6UCBAAFAkBCDwAFCwAGBwEIBQUCBQkD4wGDxPcs5oq29dcAAAABAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj9AAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAfDVHbNpkR4mh8HIdFjylkSHtzk4zgSC7PlUovu66SvcUAAAAAAAAAAAAAQAAAAAAARQAAAAAAAAAAQA=",
@@ -74,32 +74,6 @@
             }
         ],
         "logMessages": [
-            "Program ComputeBudget111111111111111111111111111111 invoke [1]",
-            "Program ComputeBudget111111111111111111111111111111 success",
-            "Program 6UqiSPd2mRCTTwkzhcs1M6DGYsqHWd5jiPueX3LwDMXQ invoke [1]",
-            "Program log: Instruction: ExecuteCompressedTransaction",
-            "Program log: execute_compressed_transaction",
-            "Program log: deserialized inputs",
-            "Program log: sum check success",
-            "Program log: transfer_lamports 20",
-            "Program log: sender lamports: 999995000",
-            "Program log: receiver lamports: 946560",
-            "Program 11111111111111111111111111111111 invoke [2]",
-            "Program 11111111111111111111111111111111 success",
-            "Program 5QPEJ5zDsVou9FQS3KCauKswM3VwBEBu4dpL9xTqkWwN invoke [2]",
-            "Program log: Instruction: AppendLeavesToMerkleTrees",
-            "Program log: inserting leaves: [[27, 94, 128, 101, 38, 3, 38, 161, 60, 238, 2, 229, 53, 162, 108, 59, 239, 144, 75, 88, 68, 221, 112, 179, 146, 27, 92, 4, 195, 153, 23, 48]]",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV invoke [3]",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV consumed 38 of 904469 compute units",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV success",
-            "Program 5QPEJ5zDsVou9FQS3KCauKswM3VwBEBu4dpL9xTqkWwN consumed 64596 of 968851 compute units",
-            "Program 5QPEJ5zDsVou9FQS3KCauKswM3VwBEBu4dpL9xTqkWwN success",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV invoke [2]",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV consumed 38 of 893550 compute units",
-            "Program noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV success",
-            "Program 6UqiSPd2mRCTTwkzhcs1M6DGYsqHWd5jiPueX3LwDMXQ consumed 107264 of 999850 compute units",
-            "Program return: 6UqiSPd2mRCTTwkzhcs1M6DGYsqHWd5jiPueX3LwDMXQ AAAAAAEAAAAbXoBlJgMmoTzuAuU1omw775BLWETdcLOSG1wEw5kXMAAAAAABAAAAfDVHbNpkR4mh8HIdFjylkSHtzk4zgSC7PlUovu66SvcUAAAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAEAAABETX0gTIA9tAHPRSx5dpkRs7dzIqN/ZtYBV6+xXzFBRQA=",
-            "Program 6UqiSPd2mRCTTwkzhcs1M6DGYsqHWd5jiPueX3LwDMXQ success"
         ],
         "preTokenBalances": [],
         "postTokenBalances": [],
