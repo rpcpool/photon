@@ -190,7 +190,8 @@ async fn validate_tree_roots(rpc_client: &RpcClient, db_roots: Vec<(Pubkey, Hash
                     account_roots
                 );
                 root_validation_errors += 1;
-                statsd_count!("root_validation_failures", 1, "pubkey" => &pubkey.to_string());
+                let pubkey_str = pubkey.to_string();
+                statsd_count!("root_validation_failures", 1, "pubkey" => &pubkey_str);
             }
         }
     }
