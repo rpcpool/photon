@@ -203,6 +203,7 @@ async fn validate_tree_roots(rpc_client: &RpcClient, db_roots: Vec<(Pubkey, Hash
     } else {
         metric! {
             statsd_gauge!("root_validation_success", 1);
+            statsd_count!("root_validation_failures", 0);
         }
     }
 }
