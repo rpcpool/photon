@@ -161,25 +161,33 @@ async fn load_accounts_with_infinite_retry(
 }
 
 async fn validate_tree_roots(rpc_client: &RpcClient, db_roots: Vec<(Pubkey, Hash)>) {
+    let mut root_validation_errors = 0;
     for chunk in db_roots.chunks(CHUNK_SIZE) {
         let pubkeys = chunk.iter().map(|(pubkey, _)| pubkey.clone()).collect();
         let accounts = load_accounts_with_infinite_retry(rpc_client, pubkeys).await;
         for ((pubkey, db_hash), account) in chunk.iter().zip(accounts) {
-            if let Some(account) = account {
-                let account_roots = parse_historical_roots(account);
-                if !account_roots.contains(db_hash) {
-                    log::error!(
-                        "Root mismatch for pubkey {:?}. db_hash: {}, account_roots: {:?}",
-                        pubkey,
-                        db_hash,
-                        account_roots
-                    );
-                    return;
-                }
+            let account_roots = parse_historical_roots(account);
+            if !account_roots.contains(db_hash) {
+                log::error!(
+                    "Root mismatch for pubkey {:?}. db_hash: {}, account_roots: {:?}",
+                    pubkey,
+                    db_hash,
+                    account_roots
+                );
+                root_validation_errors += 1;
+                let pubkey_str = pubkey.to_string();
+                statsd_count!("root_validation_failures", 1, "pubkey" => &pubkey_str);
             }
         }
     }
-    metric! {
-        statsd_count!("root_validation_success", 1);
+
+    if root_validation_errors > 0 {
+        metric! {
+            statsd_gauge!("root_validation_success", 0);
+        }
+    } else {
+        metric! {
+            statsd_gauge!("root_validation_success", 1);
+        }
     }
 }
