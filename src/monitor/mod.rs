@@ -145,27 +145,12 @@ async fn load_db_tree_roots_with_infinite_retry(db: &DatabaseConnection) -> Vec<
 async fn load_accounts_with_infinite_retry(
     rpc_client: &RpcClient,
     pubkeys: Vec<Pubkey>,
-) -> Vec<SolanaAccount> {
+) -> Vec<Option<SolanaAccount>> {
     loop {
         let accounts = rpc_client.get_multiple_accounts(&pubkeys).await;
         match accounts {
             Ok(accounts) => {
-                let mut parsed_accounts = Vec::new();
-                let mut found_null_account = false;
-                for account in accounts {
-                    match account {
-                        Some(account) => parsed_accounts.push(account),
-                        None => {
-                            log::error!("Found null tree account when fetching historical roots. Retrying...");
-                            found_null_account = true;
-                            break;
-                        }
-                    }
-                }
-                if found_null_account {
-                    continue;
-                }
-                return parsed_accounts;
+                return accounts;
             }
             Err(e) => {
                 log::error!("Error loading accounts: {}", e);
