@@ -1,6 +1,7 @@
 ---
 source: tests/integration_tests/e2e_tests.rs
-expression: proof
+assertion_line: 689
+expression: proof_v1
 ---
 {
   "context": {
