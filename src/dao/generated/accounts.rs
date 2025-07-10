@@ -13,14 +13,21 @@ pub struct Model {
     pub owner: Vec<u8>,
     pub tree: Vec<u8>,
     pub leaf_index: i64,
-    pub seq: i64,
+    pub seq: Option<i64>,
     pub slot_created: i64,
     pub spent: bool,
     pub prev_spent: Option<bool>,
-    #[sea_orm(column_type = "Decimal(Some((20, 0)))")]
+    #[sea_orm(column_type = "Decimal(Some((23, 0)))")]
     pub lamports: Decimal,
-    #[sea_orm(column_type = "Decimal(Some((20, 0)))", nullable)]
+    #[sea_orm(column_type = "Decimal(Some((23, 0)))", nullable)]
     pub discriminator: Option<Decimal>,
+    pub tree_type: Option<i32>,
+    pub nullified_in_tree: bool,
+    pub nullifier_queue_index: Option<i64>,
+    pub in_output_queue: bool,
+    pub queue: Option<Vec<u8>>,
+    pub nullifier: Option<Vec<u8>>,
+    pub tx_hash: Option<Vec<u8>>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

@@ -1,14 +1,15 @@
-use std::collections::{HashMap, HashSet};
-
-use borsh::{BorshDeserialize, BorshSerialize};
-use solana_sdk::pubkey::Pubkey;
-use solana_sdk::signature::Signature;
-
-use crate::common::typedefs::account::Account;
-
+use super::{indexer_events::RawIndexedElement, merkle_tree_events_parser::BatchMerkleTreeEvents};
+use crate::common::typedefs::account::AccountWithContext;
 use crate::common::typedefs::hash::Hash;
-
-use super::indexer_events::RawIndexedElement;
+use crate::common::typedefs::serializable_pubkey::SerializablePubkey;
+use borsh::{BorshDeserialize, BorshSerialize};
+use jsonrpsee_core::Serialize;
+use light_compressed_account::indexer_event::event::{BatchNullifyContext, NewAddress};
+use light_compressed_account::TreeType;
+use solana_pubkey::Pubkey;
+use solana_sdk::signature::Signature;
+use std::collections::{HashMap, HashSet};
+use utoipa::ToSchema;
 
 #[derive(BorshDeserialize, BorshSerialize, Debug, Clone, PartialEq, Eq)]
 pub struct PathNode {
@@ -58,20 +59,46 @@ pub struct LeafNullification {
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub struct IndexedTreeLeafUpdate {
     pub tree: Pubkey,
+    pub tree_type: TreeType,
     pub leaf: RawIndexedElement,
     pub hash: [u8; 32],
     pub seq: u64,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, ToSchema, Default)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct AddressQueueUpdate {
+    pub tree: SerializablePubkey,
+    pub address: [u8; 32],
+    pub queue_index: u64,
+}
+
+impl From<NewAddress> for AddressQueueUpdate {
+    fn from(new_address: NewAddress) -> Self {
+        AddressQueueUpdate {
+            tree: SerializablePubkey::from(new_address.mt_pubkey),
+            address: new_address.address,
+            queue_index: new_address.queue_index,
+        }
+    }
+}
+
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
-/// Representation of state update of the compression system that is optimal for simple persistance.
+/// Representation of state update of the compression system that is optimal for simple persistence.
 pub struct StateUpdate {
+    // v1 and v2 tree accounts
     pub in_accounts: HashSet<Hash>,
-    pub out_accounts: Vec<Account>,
+    // v1 and v2 tree accounts
+    pub out_accounts: Vec<AccountWithContext>,
     pub account_transactions: HashSet<AccountTransaction>,
     pub transactions: HashSet<Transaction>,
     pub leaf_nullifications: HashSet<LeafNullification>,
     pub indexed_merkle_tree_updates: HashMap<(Pubkey, u64), IndexedTreeLeafUpdate>,
+    // v2 state and address Merkle tree updates
+    pub batch_merkle_tree_events: BatchMerkleTreeEvents,
+    // v2 input accounts that are inserted into the input queue
+    pub batch_nullify_context: Vec<BatchNullifyContext>,
+    pub batch_new_addresses: Vec<AddressQueueUpdate>,
 }
 
 impl StateUpdate {
@@ -81,6 +108,7 @@ impl StateUpdate {
 
     pub fn merge_updates(updates: Vec<StateUpdate>) -> StateUpdate {
         let mut merged = StateUpdate::default();
+
         for update in updates {
             merged.in_accounts.extend(update.in_accounts);
             merged.out_accounts.extend(update.out_accounts);
@@ -102,7 +130,23 @@ impl StateUpdate {
                     merged.indexed_merkle_tree_updates.insert(key, value);
                 }
             }
+
+            for (key, events) in update.batch_merkle_tree_events {
+                if let Some(existing_events) = merged.batch_merkle_tree_events.get_mut(&key) {
+                    existing_events.extend(events);
+                } else {
+                    merged.batch_merkle_tree_events.insert(key, events);
+                }
+            }
+
+            merged
+                .batch_new_addresses
+                .extend(update.batch_new_addresses);
+            merged
+                .batch_nullify_context
+                .extend(update.batch_nullify_context);
         }
+
         merged
     }
 }
