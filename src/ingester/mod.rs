@@ -105,18 +105,36 @@ pub async fn index_block_batch_with_infinite_retries(
     db: &DatabaseConnection,
     block_batch: Vec<BlockInfo>,
 ) {
+    let mut retry_count = 0;
     loop {
         match index_block_batch(db, &block_batch).await {
             Ok(()) => return,
             Err(e) => {
                 let start_block = block_batch.first().unwrap().metadata.slot;
                 let end_block = block_batch.last().unwrap().metadata.slot;
+                metric! {
+                    statsd_count!("indexing_batch_failure_attempt", 1);
+                }
                 log::error!(
                     "Failed to index block batch {}-{}. Got error {}",
                     start_block,
                     end_block,
                     e
                 );
+
+                retry_count += 1;
+                if retry_count > 5 {
+                    metric! {
+                        statsd_count!("indexing_batch_permanently_skipped", 1);
+                    }
+                    
+                    log::error!(
+                        "Max retries exceeded for faulty batch. Skipping blocks {}-{}",
+                        start_block,
+                        end_block
+                    );
+                    return; 
+                }
                 sleep(Duration::from_secs(1));
             }
         }
