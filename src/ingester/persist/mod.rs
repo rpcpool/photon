@@ -288,6 +288,11 @@ pub struct EnrichedTokenAccount {
     pub hash: Hash,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, sea_orm::FromQueryResult)]
+struct MinimalAccountHash {
+    hash: Vec<u8>,
+}
+
 #[derive(Debug)]
 enum AccountType {
     Account,
@@ -607,7 +612,6 @@ async fn persist_transactions(
 // ***************************************************************
 // * NEW HELPER FUNCTIONS FOR MISSING ACCOUNT HANDLING
 // ***************************************************************
-
 async fn get_missing_hashes(
     txn: &DatabaseTransaction,
     all_hashes: Vec<Hash>,
@@ -621,12 +625,13 @@ async fn get_missing_hashes(
         .select_only()
         .column(accounts::Column::Hash)
         .filter(accounts::Column::Hash.is_in(all_hashes.iter().map(|h| h.to_vec())))
-        .into_model()
+        // Changed into_model() to into_model::<MinimalAccountHash>()
+        .into_model::<MinimalAccountHash>() 
         .all(txn)
         .await
         .map_err(|e| IngesterError::DatabaseError(format!("Failed to query existing accounts: {}", e)))?
         .into_iter()
-        .map(|model| model.hash)
+        .map(|model| model.hash) // <-- Now the type 'model' is explicitly known as MinimalAccountHash
         .collect();
 
     let existing_set: HashSet<Vec<u8>> = existing_hashes.into_iter().collect();
