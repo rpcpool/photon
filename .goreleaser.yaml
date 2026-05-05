@@ -17,6 +17,10 @@ builds:
       flags:
           - --release
           - --bin=photon
+      env:
+          - OPENSSL_INCLUDE_DIR=/usr/include
+          - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
+          - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
 
     - id: photon-migration
       builder: rust
@@ -26,6 +30,10 @@ builds:
       flags:
           - --release
           - --bin=photon-migration
+      env:
+          - OPENSSL_INCLUDE_DIR=/usr/include
+          - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
+          - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
 
     - id: photon-openapi
       builder: rust
@@ -35,6 +43,10 @@ builds:
       flags:
           - --release
           - --bin=photon-openapi
+      env:
+          - OPENSSL_INCLUDE_DIR=/usr/include
+          - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
+          - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
 
     - id: photon-snapshot-loader
       builder: rust
@@ -44,6 +56,10 @@ builds:
       flags:
           - --release
           - --bin=photon-snapshot-loader
+      env:
+          - OPENSSL_INCLUDE_DIR=/usr/include
+          - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
+          - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
 
     - id: photon-snapshotter
       builder: rust
@@ -53,6 +69,10 @@ builds:
       flags:
           - --release
           - --bin=photon-snapshotter
+      env:
+          - OPENSSL_INCLUDE_DIR=/usr/include
+          - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
+          - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
 
 archives:
     - id: photon
