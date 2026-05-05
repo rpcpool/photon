@@ -1,0 +1,93 @@
+# .goreleaser.yaml for rpcpool/photon
+#
+# This file must be committed to the root of the photon source repo.
+# GCS upload, cosigning, and GitHub Release publishing are injected via
+# ci/goreleaser-patch.yaml in Binaries-ci at build time.
+#
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+
+version: 2
+
+builds:
+    - id: photon
+      builder: rust
+      binary: photon
+      targets:
+          - x86_64-unknown-linux-gnu
+      flags:
+          - --release
+          - --bin=photon
+
+    - id: photon-migration
+      builder: rust
+      binary: photon-migration
+      targets:
+          - x86_64-unknown-linux-gnu
+      flags:
+          - --release
+          - --bin=photon-migration
+
+    - id: photon-openapi
+      builder: rust
+      binary: photon-openapi
+      targets:
+          - x86_64-unknown-linux-gnu
+      flags:
+          - --release
+          - --bin=photon-openapi
+
+    - id: photon-snapshot-loader
+      builder: rust
+      binary: photon-snapshot-loader
+      targets:
+          - x86_64-unknown-linux-gnu
+      flags:
+          - --release
+          - --bin=photon-snapshot-loader
+
+    - id: photon-snapshotter
+      builder: rust
+      binary: photon-snapshotter
+      targets:
+          - x86_64-unknown-linux-gnu
+      flags:
+          - --release
+          - --bin=photon-snapshotter
+
+archives:
+    - id: photon
+      ids: [photon]
+      name_template: photon-linux-amd64
+      formats: [binary]
+
+    - id: photon-migration
+      ids: [photon-migration]
+      name_template: photon-migration-linux-amd64
+      formats: [binary]
+
+    - id: photon-openapi
+      ids: [photon-openapi]
+      name_template: photon-openapi-linux-amd64
+      formats: [binary]
+
+    - id: photon-snapshot-loader
+      ids: [photon-snapshot-loader]
+      name_template: photon-snapshot-loader-linux-amd64
+      formats: [binary]
+
+    - id: photon-snapshotter
+      ids: [photon-snapshotter]
+      name_template: photon-snapshotter-linux-amd64
+      formats: [binary]
+
+release:
+    github:
+        owner: rpcpool
+        name: photon
+    draft: true
+    header: |
+        rust {{ .Env.RUST_VERSION }}
+
+changelog:
+    sort: asc
+    use: github
