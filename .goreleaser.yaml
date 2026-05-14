@@ -13,11 +13,13 @@ builds:
       builder: rust
       binary: photon
       targets:
-          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-gnu.2.31
       flags:
           - --release
           - --bin=photon
       env:
+          - OPENSSL_STATIC=1
+          - PKG_CONFIG_ALLOW_CROSS=1
           - OPENSSL_INCLUDE_DIR=/usr/include
           - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
           - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
@@ -26,11 +28,13 @@ builds:
       builder: rust
       binary: photon-migration
       targets:
-          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-gnu.2.31
       flags:
           - --release
           - --bin=photon-migration
       env:
+          - OPENSSL_STATIC=1
+          - PKG_CONFIG_ALLOW_CROSS=1
           - OPENSSL_INCLUDE_DIR=/usr/include
           - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
           - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
@@ -39,11 +43,13 @@ builds:
       builder: rust
       binary: photon-openapi
       targets:
-          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-gnu.2.31
       flags:
           - --release
           - --bin=photon-openapi
       env:
+          - OPENSSL_STATIC=1
+          - PKG_CONFIG_ALLOW_CROSS=1
           - OPENSSL_INCLUDE_DIR=/usr/include
           - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
           - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
@@ -52,11 +58,13 @@ builds:
       builder: rust
       binary: photon-snapshot-loader
       targets:
-          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-gnu.2.31
       flags:
           - --release
           - --bin=photon-snapshot-loader
       env:
+          - OPENSSL_STATIC=1
+          - PKG_CONFIG_ALLOW_CROSS=1
           - OPENSSL_INCLUDE_DIR=/usr/include
           - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
           - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
@@ -65,11 +73,13 @@ builds:
       builder: rust
       binary: photon-snapshotter
       targets:
-          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-linux-gnu.2.31
       flags:
           - --release
           - --bin=photon-snapshotter
       env:
+          - OPENSSL_STATIC=1
+          - PKG_CONFIG_ALLOW_CROSS=1
           - OPENSSL_INCLUDE_DIR=/usr/include
           - OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu
           - CFLAGS_x86_64_unknown_linux_gnu=-isystem /usr/include/x86_64-linux-gnu
