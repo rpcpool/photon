@@ -8,6 +8,8 @@
 
 version: 2
 
+project_name: photon
+
 builds:
     - id: photon
       builder: rust
