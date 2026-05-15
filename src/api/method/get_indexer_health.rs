@@ -5,7 +5,7 @@ use crate::common::typedefs::context::Context;
 use solana_client::nonblocking::rpc_client::RpcClient;
 
 // TODO: Make this an environment variable.
-pub const HEALTH_CHECK_SLOT_DISTANCE: i64 = 20;
+pub const HEALTH_CHECK_SLOT_DISTANCE: i64 = 50;
 
 // TODO: Make sure that get_indexer_health formatting matches the Solana RPC formatting.
 pub async fn get_indexer_health(
